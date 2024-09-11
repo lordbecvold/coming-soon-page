@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <script>
+        const config = {
+            "launchDate": "2024-12-31T23:59:59"
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0e0b16;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .glow-circle {
+            position: absolute;
+            background: rgba(255, 0, 255, 0.3);
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: moveCircle 10s infinite alternate ease-in-out;
+        }
+        .glow-circle:nth-child(1) {
+            width: 30vw;
+            height: 30vw;
+            top: 10%;
+            left: 15%;
+            animation-duration: 10s;
+        }
+        .glow-circle:nth-child(2) {
+            width: 40vw;
+            height: 40vw;
+            top: 70%;
+            left: 10%;
+            background: rgba(0, 255, 255, 0.3);
+            animation-duration: 12s;
+        }
+        .glow-circle:nth-child(3) {
+            width: 50vw;
+            height: 50vw;
+            top: 30%;
+            left: 80%;
+            background: rgba(255, 255, 0, 0.3);
+            animation-duration: 15s;
+        }
+        @keyframes moveCircle {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+            100% {
+                transform: translate(50%, 50%);
+            }
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+        #countdown {
+            font-size: 30px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            font-size: 20px;
+            transition: all 0.3s ease-in-out;
+            box-sizing: border-box;
+        }
+        .time-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+        .time-box span {
+            display: block;
+            font-size: 16px;
+            margin-top: 5px;
+            color: #ddd;
+        }
+        #loading {
+            font-size: 30px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        #countdownWrapper {
+            display: none;
+            animation: fadeIn 1.5s forwards;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+            max-width: 96vw;
+            max-height: 95vh;
+            box-sizing: border-box;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 40px;
+                letter-spacing: 2px;
+            }
+            .time-box {
+                padding: 10px;
+                font-size: 18px;
+            }
+            .time-box span {
+                font-size: 14px;
+            }
+            #countdown {
+                font-size: 20px;
+                gap: 10px;
+            }
+            .glow-circle {
+                filter: blur(80px);
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 30px;
+            }
+            .time-box {
+                padding: 8px;
+                font-size: 16px;
+            }
+            .time-box span {
+                font-size: 12px;
+            }
+            #countdown {
+                font-size: 16px;
+                gap: 5px;
+            }
+            .glow-circle {
+                filter: blur(60px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow">
+        <div class="glow-circle"></div>
+        <div class="glow-circle"></div>
+        <div class="glow-circle"></div>
+    </div>
+    <div class="container">
+        <h1 id="projectName">Coming Soon</h1>
+        <div id="loading">Loading countdown...</div>
+        <div id="countdownWrapper">
+            <div id="countdown">
+                <div class="time-box">
+                    <span id="days">00</span>
+                    Days
+                </div>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    Hours
+                </div>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    Minutes
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    Seconds
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function countdown() {
+            const now = new Date().getTime();
+            const launchDate = new Date(config.launchDate).getTime();
+            const timeLeft = launchDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+
+            if (timeLeft < 0) {
+                document.getElementById("countdown").innerHTML = "Launched!";
+            }
+        }
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("countdownWrapper").style.display = "flex";
+                countdown();
+                setInterval(countdown, 1000);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
